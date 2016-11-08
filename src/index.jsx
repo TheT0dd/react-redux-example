@@ -5,7 +5,20 @@ import { Provider } from 'react-redux';
 import todoApp from './reducers';
 import App from './components/App';
 
-const store = createStore(todoApp);
+const persistedState = {
+	todos: [{
+		id: '0',
+		text: 'Welcome back!',
+		completed: false
+	}]
+};
+
+const store = createStore(
+	todoApp,
+	persistedState
+);
+
+console.log(store.getState());
 
 // Provider component takes the store as a prop
 // and stores it in context, making it available
