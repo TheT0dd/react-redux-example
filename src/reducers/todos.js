@@ -19,7 +19,7 @@ const todo = (state, action) => {
 	}
 };
 
-export const todos = (state = [], action) => {
+const todos = (state = [], action) => {
 	switch (action.type) {
 		case 'ADD_TODO':
 			return [
@@ -34,3 +34,19 @@ export const todos = (state = [], action) => {
 };
 
 export default todos;
+
+// Selectors
+// ---
+// Named exports starting with get that select things
+// from the current state. state refers to the todos
+// array (just like the state in todos reducer)
+export const getVisibleTodos = (state, filter) => {
+	switch (filter) {
+		case 'all':
+			return state;
+		case 'completed':
+			return state.filter(t => t.completed);
+		case 'active':
+			return state.filter(t => !t.completed);
+	}
+};
