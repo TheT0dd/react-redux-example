@@ -18,6 +18,7 @@
     "no-console": 0,
     "no-unused-vars": 0,
     "semi": 1,
+    "no-class-assign": 0,
     "react/display-name": 0,
     "react/prop-types": 0,
     "react/no-multi-comp": 0,
