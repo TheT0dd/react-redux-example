@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { toggleTodo } from '../actions';
 import TodoList from './TodoList';
 
@@ -17,10 +18,10 @@ const getVisibleTodos = (
 	}
 };
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, { params }) => ({
 	todos: getVisibleTodos(
 		state.todos,
-		ownProps.filter
+		params.filter || 'all'
 	)
 });
 
@@ -31,10 +32,13 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // Generate container component VisibleTodoList
-// that wraps TodoList & connects to the redux store
-const VisibleTodoList = connect(
+// that is the result of wrapping Todo list twice
+// in this order (order matters):
+// 1. connect() -> connects to redux store
+// 2. withRouter() -> stores route `params` in (own) props
+const VisibleTodoList = withRouter(connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(TodoList);
+)(TodoList));
 
 export default VisibleTodoList;
