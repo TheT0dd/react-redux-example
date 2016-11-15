@@ -1,28 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { toggleTodo } from '../actions';
+import * as actions from '../actions';
 import { getVisibleTodos } from '../reducers';
 import TodoList from './TodoList';
 import { fetchTodos } from '../api';
 
 class VisibleTodoList extends Component {
 	componentDidMount() {
-		fetchTodos(this.props.filter).then(todos =>
-			console.log(this.props.filter, todos)
-		);
+		this.fetchData();
 	}
 
 	componentDidUpdate(prevProps) {
 		if (this.props.filter !== prevProps.filter) {
-			fetchTodos(this.props.filter).then(todos =>
-				console.log(this.props.filter, todos)
-			);
+			this.fetchData();
 		}
 	}
 
+	fetchData() {
+		const { filter, receiveTodos } = this.props;
+		fetchTodos(filter).then(todos =>
+			// dispatch action to the store
+			// NOTE: this is not an action creator, rather
+			// an action dispatcher, that internally creates
+			// an action of the same name, then dispatces it
+			receiveTodos(filter, todos)
+		);
+	}
+
 	render() {
-		return <TodoList {...this.props} />;
+		const { toggleTodo, ...rest } = this.props;
+		return (
+			<TodoList
+				{...rest}
+				onTodoClick={toggleTodo}
+			/>
+		);
 	}
 }
 
@@ -44,11 +57,9 @@ const mapStateToProps = (state, { params }) => {
 VisibleTodoList = withRouter(connect(
 	mapStateToProps,
 	// mapDispatchToProps() shorthand:
-	// onTodoClick() will be a function that will call
-	// toggleTodo() to generate an action passing through
-	// its args in the same order and then call dispatch()
-	// to dispatch the action to the store
-	{ onTodoClick: toggleTodo }
+	// creates an action dispatcher for each action creator
+	// found inside the `actions` namespace import
+	actions
 )(VisibleTodoList));
 
 export default VisibleTodoList;
