@@ -4,7 +4,6 @@ import { withRouter } from 'react-router';
 import * as actions from '../actions';
 import { getVisibleTodos } from '../reducers';
 import TodoList from './TodoList';
-import { fetchTodos } from '../api';
 
 class VisibleTodoList extends Component {
 	componentDidMount() {
@@ -18,14 +17,9 @@ class VisibleTodoList extends Component {
 	}
 
 	fetchData() {
-		const { filter, receiveTodos } = this.props;
-		fetchTodos(filter).then(todos =>
-			// dispatch action to the store
-			// NOTE: this is not an action creator, rather
-			// an action dispatcher, that internally creates
-			// an action of the same name, then dispatces it
-			receiveTodos(filter, todos)
-		);
+		const { filter, fetchTodos } = this.props;
+		// dispatch async action
+		fetchTodos(filter);
 	}
 
 	render() {
