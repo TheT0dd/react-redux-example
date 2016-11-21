@@ -6,11 +6,15 @@ const createList = (filter) => {
 		switch (action.type) {
 			case 'FETCH_TODOS_SUCCESS':
 				return action.filter === filter ?
-					action.response.map(todo => todo.id) :
+					// normalized response.result is
+					// already an array of ids
+					action.response.result :
 					state;
 			case 'ADD_TODO_SUCCESS':
 				return filter !== 'completed' ?
-					[...state, action.response.id] :
+					// normalized response.result is
+					// the single id of the added todo
+					[...state, action.response.result] :
 					state;
 			default:
 				return state;
