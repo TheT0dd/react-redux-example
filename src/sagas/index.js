@@ -5,7 +5,7 @@ import * as schema from './schema';
 import * as api from '../api';
 
 
-function *fetchTodosAsync({ filter }) {
+export function *fetchTodosAsync({ filter }) {
 	try {
 		const response = yield call(api.fetchTodos, filter);
 		yield put({
@@ -23,7 +23,7 @@ function *fetchTodosAsync({ filter }) {
 	}
 }
 
-function *addTodoAsync({ text }) {
+export function *addTodoAsync({ text }) {
 	const response = yield call(api.addTodo, text);
 	yield put({
 		type: 'ADD_TODO_SUCCESS',
@@ -31,7 +31,7 @@ function *addTodoAsync({ text }) {
 	});
 }
 
-function *toggleTodoAsync({ id }) {
+export function *toggleTodoAsync({ id }) {
 	const response = yield call(api.toggleTodo, id);
 	yield put({
 		type: 'TOGGLE_TODO_SUCCESS',
