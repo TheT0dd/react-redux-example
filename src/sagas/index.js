@@ -7,7 +7,16 @@ import * as api from '../api';
 
 export function *fetchTodosAsync({ filter }) {
 	try {
+		// yield a call effect: we do NOT call the actual method,
+		// we just yield an 'effect' object that *describes* the
+		// method call & serves as an instruction to the redux-saga
+		// middleware. Based on this effect object, the middleware
+		// will perform the actual method call & resume the Saga
+		// based on the result
 		const response = yield call(api.fetchTodos, filter);
+		// yield a put effect: an object describing a dispatch()
+		// call. The actual call to dispatch happens (same as above)
+		// inside the middleware, not here
 		yield put({
 			type: 'FETCH_TODOS_SUCCESS',
 			filter,
