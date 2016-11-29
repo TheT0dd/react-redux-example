@@ -19,7 +19,9 @@ class VisibleTodoList extends Component {
 
 	fetchData() {
 		const { filter, fetchTodos } = this.props;
-		// fetches todos (async)
+		// call fetchTodos() dispatcher to create & dispatch a sync action
+		// NOTE: since sagas are at play, we expect the sync action to be
+		// caught by the saga middleware, which will init any async flows
 		fetchTodos(filter);
 	}
 
