@@ -22,6 +22,9 @@ module.exports = function karmaConfig (config) {
       // Needed because React.js requires bind and phantomjs does not support it
       'node_modules/phantomjs-polyfill/bind-polyfill.js',
 
+      // Add babel-polyfill to make sure APIs like Promises work
+      'node_modules/babel-polyfill/dist/polyfill.min.js',
+
       // Grab all files in the tests directory that contain _test.
       'tests/**/*_test.*'
     ],
@@ -55,4 +58,3 @@ module.exports = function karmaConfig (config) {
     }
   });
 };
-
